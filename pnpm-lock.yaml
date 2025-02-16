@@ -17,6 +17,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
+      vite:
+        specifier: ^6.1.0
+        version: 6.1.0(@types/node@22.13.4)(terser@5.39.0)
     devDependencies:
       '@types/node':
         specifier: ^22.13.4
@@ -57,9 +60,6 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
-      vite:
-        specifier: ^6.1.0
-        version: 6.1.0(@types/node@22.13.4)(terser@5.39.0)
 
 packages:
 
