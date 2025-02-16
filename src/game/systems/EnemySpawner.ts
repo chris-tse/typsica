@@ -16,10 +16,7 @@ export class EnemySpawner {
 	private lastSpawnTime: number
 	private spawnChance: number
 
-	constructor(
-		scene: Phaser.Scene,
-		enemyGroup: Phaser.GameObjects.Group,
-	) {
+	constructor(scene: Phaser.Scene, enemyGroup: Phaser.GameObjects.Group) {
 		this.scene = scene
 		this.enemyGroup = enemyGroup
 		this.spawnInterval = GameSettings.enemies.spawnInterval

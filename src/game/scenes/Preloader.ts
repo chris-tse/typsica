@@ -3,7 +3,7 @@ import { Scene } from 'phaser'
 // Declare global type for our word list
 declare global {
 	interface Window {
-		WORD_LIST: string[];
+		WORD_LIST: string[]
 	}
 }
 
@@ -47,8 +47,10 @@ export class Preloader extends Scene {
 
 	create() {
 		// Store the word list globally
-		const wordData = this.cache.json.get('wordLength4List') as { words: string[] };
-		window.WORD_LIST = wordData.words;
+		const wordData = this.cache.json.get('wordLength4List') as {
+			words: string[]
+		}
+		window.WORD_LIST = wordData.words
 
 		//  Move to the MainMenu
 		this.scene.start('MainMenu')
