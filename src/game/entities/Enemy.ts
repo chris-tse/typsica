@@ -1,11 +1,29 @@
 import { GameObjects } from 'phaser'
 
-export class Enemy extends GameObjects.Arc {
-	constructor(scene: Phaser.Scene, x: number, y: number) {
-		super(scene, x, y, 10, 0xff0000) // Create a red enemy circle
-		this.setOrigin(0.5)
+export class Enemy extends GameObjects.Container {
+	private sprite: GameObjects.Sprite | GameObjects.Arc
+
+	constructor(scene: Phaser.Scene, x: number, y: number, size: number = 20) {
+		super(scene, x, y) // Create a red enemy circle
+
+		// Create a default circular sprite (can be replaced with any sprite later)
+		this.sprite = scene.add
+			.arc(0, 0, size, 0, 360, false, 0xffff00)
+
+		// Add the sprite to this container
+		this.add(this.sprite)
+
 		scene.add.existing(this) // Add the enemy to the scene
 		scene.physics.add.existing(this)
+
+		// Set up physics body
+		const body = this.body as Phaser.Physics.Arcade.Body
+
+		// Set the physics body size to match the circle
+		body
+			.setCircle(size) // radius = 20
+			.setOffset(-size, -size) // Offset by -radius to center
+			.setCollideWorldBounds(true)
 	}
 
 	moveTowards(playerX: number, playerY: number, speed: number) {

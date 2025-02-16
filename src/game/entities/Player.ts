@@ -1,5 +1,7 @@
 import { GameObjects } from 'phaser'
 
+const PLAYER_RADIUS = 40
+
 export class Player extends GameObjects.Container {
 	private sprite: GameObjects.Sprite | GameObjects.Arc
 	shields: number = 0
@@ -9,8 +11,8 @@ export class Player extends GameObjects.Container {
 
 		// Create a default circular sprite (can be replaced with any sprite later)
 		this.sprite = scene.add
-			.arc(0, 0, 20, 0, 360, false, 0xffffff)
-			.setStrokeStyle(10, 0xffffff)
+			.arc(0, 0, PLAYER_RADIUS, 0, 360, false, 0xffffff)
+			.setStrokeStyle(5, 0xffffff)
 			.setFillStyle()
 
 		// Add the sprite to this container
@@ -21,8 +23,13 @@ export class Player extends GameObjects.Container {
 
 		// Set up physics body
 		const body = this.body as Phaser.Physics.Arcade.Body
-		body.setCollideWorldBounds(true)
-		body.setImmovable(true)
+
+		// Set the physics body size to match the circle
+		body
+			.setCircle(PLAYER_RADIUS) // radius = 20
+			.setOffset(-PLAYER_RADIUS, -PLAYER_RADIUS) // Offset by -radius to center
+			.setCollideWorldBounds(true)
+			.setImmovable(true)
 	}
 
 	// Method to change the player's visual representation
