@@ -9,10 +9,9 @@ export class Game extends Scene {
 	background: Phaser.GameObjects.Image
 	gameText: Phaser.GameObjects.Text
 	enemySpawner: EnemySpawner
-	enemySpawnInterval: number = 1000 // Time in milliseconds to check for enemy spawn
-	lastEnemySpawnTime: number = 0 // Track the last spawn time
 	player: Player
 	enemies: Phaser.GameObjects.Group // Set to hold enemy references
+	private typingBuffer: string = ''
 
 	constructor() {
 		super('Game')
@@ -45,6 +44,24 @@ export class Game extends Scene {
 
 		this.enemySpawner = new EnemySpawner(this, this.enemies)
 
+		// Add keyboard input handling
+		this.input.keyboard!.on('keydown', (event: KeyboardEvent) => {
+			// Only handle letter keys
+			if (/^[a-zA-Z]$/.test(event.key)) {
+				const letter = event.key.toLowerCase()	
+				this.typingBuffer += letter
+				
+				// Broadcast the typed letter to all enemies
+				this.enemies.children.iterate((enemy) => {
+					if (enemy) {  // Add check for enemy existence
+						const typedEnemy = enemy as Enemy
+						typedEnemy.checkLetter(letter)
+					}
+					return null
+				})
+			}
+		})
+
 		EventBus.emit('current-scene-ready', this)
 	}
 
@@ -58,7 +75,7 @@ export class Game extends Scene {
 		this.enemies.children.iterate((enemy) => {
 			// Specify the type as Enemy
 			const typedEnemy = enemy as Enemy
-			typedEnemy.moveTowards(playerX, playerY, 200) // Use the moveTowards method
+			typedEnemy.moveTowards(playerX, playerY, 20) // Use the moveTowards method
 			return null // Return null to satisfy the type requirement
 		})
 	}

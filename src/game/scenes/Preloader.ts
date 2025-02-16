@@ -1,5 +1,12 @@
 import { Scene } from 'phaser'
 
+// Declare global type for our word list
+declare global {
+	interface Window {
+		WORD_LIST: string[];
+	}
+}
+
 export class Preloader extends Scene {
 	constructor() {
 		super('Preloader')
@@ -31,17 +38,19 @@ export class Preloader extends Scene {
 	}
 
 	preload() {
-		//  Load the assets for the game - Replace with your own assets
+		//  Load the assets for the game
 		this.load.setPath('assets')
 
-		// this.load.image('logo', 'logo.png')
+		// Load the word list
+		this.load.json('wordLength4List', '4-letter-words.json')
 	}
 
 	create() {
-		//  When all the assets have loaded, it's often worth creating global objects here that the rest of the game can use.
-		//  For example, you can define global animations here, so we can use them in other scenes.
+		// Store the word list globally
+		const wordData = this.cache.json.get('wordLength4List') as { words: string[] };
+		window.WORD_LIST = wordData.words;
 
-		//  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
+		//  Move to the MainMenu
 		this.scene.start('MainMenu')
 	}
 }
